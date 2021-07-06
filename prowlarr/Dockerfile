@@ -5,17 +5,35 @@ FROM ${BUILD_FROM}${BUILD_UPSTREAM}
 ARG BASHIO_VERSION=0.13.0
 
 RUN \
+    # Correct some certificates issues
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - || true \
+    ################
     ################
     # Install apps #
     ################
-    apt-get update \
+    && apt-get update \
     && apt-get install -y \
+        apt-transport-https \
         jq \
         curl \
         cifs-utils \
         keyutils \
+        nginx \
         coreutils \
         openvpn \
+    \
+    ##################
+    # Install tempio #
+    ##################
+    && curl -L -f -s -o /usr/bin/tempio \
+    "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
+    && chmod a+x /usr/bin/tempio \
+    \
+    ##############
+    # STATISTICS #
+    ##############
+    && curl -L -f -s -o /tmp/tmp \
+    "https://github.com/alexbelgium/downloads-tracker/archive/refs/tags/Qbittorrent.zip" \
     \
     ###################
     # Install bashio #
