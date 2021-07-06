@@ -1,5 +1,5 @@
 ARG BUILD_FROM
-ARG BUILD_VERSION 
+ARG BUILD_VERSION
 ARG BUILD_UPSTREAM="14.3.6.99202106272003-7387-ac8105c30ubuntu20.04.1-ls141"
 FROM ${BUILD_FROM}${BUILD_UPSTREAM}
 
@@ -9,7 +9,7 @@ ARG TEMPIO_VERSION=2021.01.0
 ARG BUILD_ARCH
 
 RUN \
-    # Correct some certificates issues 
+    # Correct some certificates issues
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - || true \
     ################
     # Install apps #
@@ -24,7 +24,7 @@ RUN \
         nginx \
         coreutils \
         openvpn \
-    \    
+    \
     ##################
     # Install tempio #
     ##################
@@ -57,20 +57,20 @@ RUN \
     && sed -i 's/{PUID:-911}/(bashio::config "PUID")/g' /etc/cont-init.d/10-adduser \
     && sed -i 's/{PGID:-911}/(bashio::config "PGID")/g' /etc/cont-init.d/10-adduser \
     \
-    # Correct permissions 
-    && sed -i 's|/config|-R /config/qBittorrent|g' /etc/cont-init.d/10-adduser \    
+    # Correct permissions
+    && sed -i 's|/config|-R /config/qBittorrent|g' /etc/cont-init.d/10-adduser \
     && sed -i 's=	/config=/config/qBittorrent || true=g' /etc/cont-init.d/30-config \
     \
-    # Set download folder to /share
-    && sed -i 's|/downloads/|/share/qBittorrent/|g' /defaults/qBittorrent.conf \
+    # Set download folder to /downloads
+    && sed -i 's|/downloads/|//192.168.1.155/Media/Downloads|g' /defaults/qBittorrent.conf \
     \
     # Remove fixed folders, allows connection to webUI
-    && sed '11,13d' /defaults/qBittorrent.conf \ 
+    && sed '11,13d' /defaults/qBittorrent.conf \
     && echo 'WebUI\HostHeaderValidation=false' >> /defaults/qBittorrent.conf \
     && echo 'WebUI\LocalHostAuth=false' >> /defaults/qBittorrent.conf
 
 # Copy root filesystem
-COPY rootfs / 
+COPY rootfs /
 
 VOLUME [ "/data" ]
 
@@ -88,13 +88,13 @@ LABEL \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
     io.hass.version=${BUILD_VERSION} \
-    maintainer="alexbelgium (https://github.com/alexbelgium)" \
+    maintainer="Ozzyminted (https://github.com/ozzyminted)" \
     org.opencontainers.image.title="${BUILD_NAME}" \
     org.opencontainers.image.description="${BUILD_DESCRIPTION}" \
     org.opencontainers.image.vendor="Home Assistant Add-ons" \
-    org.opencontainers.image.authors="alexbelgium (https://github.com/alexbelgium)" \
+    org.opencontainers.image.authors="Ozzyminted (https://github.com/ozzyminted)" \
     org.opencontainers.image.licenses="MIT" \
-    org.opencontainers.image.url="https://github.com/alexbelgium" \
+    org.opencontainers.image.url="https://github.com/ozzyminted)" \
     org.opencontainers.image.source="https://github.com/${BUILD_REPOSITORY}" \
     org.opencontainers.image.documentation="https://github.com/${BUILD_REPOSITORY}/blob/main/README.md" \
     org.opencontainers.image.created=${BUILD_DATE} \

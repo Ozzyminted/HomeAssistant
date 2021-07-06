@@ -1,5 +1,5 @@
 {
-  "name": "Qbittorrent",
+  "name": "Qbittorrent-NAS-openvpn",
   "version": "14.3.6.99202106272003-7387-ac8105c30ubuntu20.04.1-ls141",
   "upstream": "14.3.6.99202106272003-7387-ac8105c30ubuntu20.04.1-ls141",
   "slug": "qbittorrent",
@@ -28,7 +28,8 @@
     "media:rw",
     "config:rw",
     "share:rw",
-    "ssl"
+    "ssl",
+    "etc"
   ],
   "apparmor": true,
   "host_network": false,
